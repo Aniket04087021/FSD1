@@ -37,7 +37,6 @@
       .input-group {
         margin-bottom: 15px;
         text-align: left;
-        font-size: 2px;
       }
 
       label {
@@ -87,17 +86,18 @@
       .input-box {
         font-size: 12px;
       }
+
+      .error-message {
+        font-size: 14px;
+        color: red;
+      }
     </style>
   </head>
 
   <body>
     <div class="container">
       <h2>Register</h2>
-      <form
-        class="form"
-        [formGroup]="registerForm"
-        (ngSubmit)="registerSubmit()"
-      >
+      <form class="form" [formGroup]="registerForm" (ngSubmit)="registerSubmit()">
         <div class="input-group">
           <label for="name">Full Name</label>
           <input
@@ -108,11 +108,12 @@
             required
             formControlName="name"
           />
-          @if(registerForm.get('name')?.invalid &&
-          registerForm.get('name')?.touched){
-          <div style="font-size: 16px;">name is required</div>
-          }
+          <!-- Error message for Full Name -->
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error-message">
+            Name is required
+          </div>
         </div>
+
         <div class="input-group">
           <label for="email">Email</label>
           <input
@@ -123,11 +124,12 @@
             required
             formControlName="email"
           />
-          @if(registerForm.get('email')?.invalid &&
-          registerForm.get('email')?.touched){
-          <div style="font-size: 16px;">email is not valid</div>
-          }
+          <!-- Error message for Email -->
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+            Please enter a valid email address
+          </div>
         </div>
+
         <div class="input-group">
           <label for="password">Password</label>
           <input
@@ -138,11 +140,12 @@
             required
             formControlName="password"
           />
-          @if(registerForm.get('password')?.invalid &&
-          registerForm.get('password')?.touched){
-          <div style="font-size: 16px;">password is required</div>
-          }
+          <!-- Error message for Password -->
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+            Password is required and must be at least 6 characters
+          </div>
         </div>
+
         <div class="input-group">
           <label for="confirm-password">Confirm Password</label>
           <input
@@ -151,15 +154,21 @@
             id="confirm-password"
             placeholder="Confirm your password"
             required
-            formControlName="confirmPassword"
+            formControlName="confirm"
           />
-          @if(registerForm.get('confirmPassword')?.invalid &&
-          registerForm.get('confirmPassword')?.touched){
-          <div style="font-size: 16px;">Password does not matched</div>
-          }
+          <!-- Error message for Confirm Password -->
+          <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" class="error-message">
+            Password confirmation is required
+          </div>
+          <!-- Error for password mismatch -->
+          <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched" class="error-message">
+            Passwords do not match
+          </div>
         </div>
-        <button type="submit">Sign Up</button>
+
+        <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
       </form>
+
       <div class="login-link">
         Already have an account? <a [routerLink]="['/auth/login']">Login</a>
       </div>

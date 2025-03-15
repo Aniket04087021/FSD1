@@ -7,6 +7,7 @@ import { Iregister } from '../models/iregister';
   providedIn: 'root',
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:5005/api';
   constructor(private httpClient: HttpClient) {}
 
   registerUser(user: Iregister): Observable<any> {

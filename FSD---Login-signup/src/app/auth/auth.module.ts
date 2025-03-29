@@ -5,7 +5,9 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { interceptors } from '../shared/Interceptors';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -19,6 +21,6 @@ import { provideHttpClient } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers:[provideHttpClient()],
+  providers:[provideHttpClient(withInterceptors(interceptors)), AuthService],
 })
 export class AuthModule { }

@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProfilesRoutingModule } from './profiles-routing.module';
+import { ProfileService } from './services/profile.service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { interceptors } from '../shared/Interceptors';
 
 
 @NgModule({
@@ -9,6 +12,8 @@ import { ProfilesRoutingModule } from './profiles-routing.module';
   imports: [
     CommonModule,
     ProfilesRoutingModule
-  ]
+  ],
+  providers: [ProfileService,
+    provideHttpClient(withInterceptors(interceptors))],
 })
 export class ProfilesModule { }
